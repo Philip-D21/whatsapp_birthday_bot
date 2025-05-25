@@ -53,11 +53,6 @@ node birthday/index.js
 
 2. Scan the QR code with your WhatsApp mobile app to authenticate the bot.
 
-3. Available Commands:
-- `!test` - Test if the bot is working
-- `!groups` - List all groups the bot is in
-- `!groupid` - Get the current group's ID (use in a group)
-- `!groupinfo <group-id>` - Get detailed information about a specific group
 
 ## Configuration ⚙️
 
