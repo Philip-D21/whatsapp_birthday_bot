@@ -6,7 +6,7 @@ const qrcode = require('qrcode-terminal')
 const axios = require('axios')
 
 async function startBot() {
-    // Use multi-file auth state for better reliability + plus you would be scanning qr code every time
+    // Use multi-file auth state for better reliability + plus you wouldn't be scanning qr code every time
     const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys')
     
     const sock = makeWASocket({
