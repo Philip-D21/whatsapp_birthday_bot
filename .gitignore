@@ -1,4 +1,4 @@
 .env
-/auth_info_baileys
+/auth_info
 /node_modules
-/birthdays.json
+birthdays.json
