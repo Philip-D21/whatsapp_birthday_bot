@@ -1,4 +1,11 @@
+# Ignore environment variables
 .env
-/auth_info
+
+# Ignore any file ending in 'auth_info'
+*auth_info
+
+# Ignore node_modules directory
 /node_modules
-birthdays.json
+
+# Ignore any file ending with 'birthdays.json'
+*birthdays.json
