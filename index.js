@@ -7,7 +7,7 @@ const axios = require('axios')
 
 async function startBot() {
     // Use multi-file auth state for better reliability + plus you wouldn't be scanning qr code every time
-    const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys')
+    const { state, saveCreds } = await useMultiFileAuthState('auth_info')
     
     const sock = makeWASocket({
         auth: state,
@@ -42,90 +42,7 @@ async function startBot() {
             const messageContent = m.message.conversation || m.message.extendedTextMessage?.text || ''
             const sender = m.key.remoteJid
             const isGroup = sender.endsWith('@g.us')
-            
-            // // Test command
-            // if (messageContent.toLowerCase() === '!test') {
-            //     await sock.sendMessage(sender, { text: '✅ Bot is working! You will receive birthday messages at 9 AM daily.' })
-            // }
-
-            // // Get current group info command
-            // if (messageContent.toLowerCase() === '!groupid' && isGroup) {
-            //     try {
-            //         const groupInfo = await sock.groupMetadata(sender)
-            //         let message = '📱 Current Group Information:\n\n'
-            //         message += `Group Name: ${groupInfo.subject}\n`
-            //         message += `Group ID: ${groupInfo.id}\n`
-            //         message += `Created: ${new Date(groupInfo.creation * 1000).toLocaleDateString()}\n`
-            //         message += `Members: ${groupInfo.participants.length}\n\n`
-            //         message += 'To use this group for birthday messages, add this ID to birthdays.json:\n'
-            //         message += `"group": "${groupInfo.id}"`
-                    
-            //         await sock.sendMessage(sender, { text: message })
-            //     } catch (error) {
-            //         console.error('Error fetching group info:', error)
-            //         await sock.sendMessage(sender, { 
-            //             text: '❌ Error fetching group information. Please try again later.' 
-            //         })
-            //     }
-            // }
-
-            // // Get all groups command
-            // if (messageContent.toLowerCase() === '!groups') {
-            //     try {
-            //         const groups = await sock.groupFetchAllParticipating()
-            //         let message = '📱 Groups the bot is in:\n\n'
-                    
-            //         for (const group of Object.values(groups)) {
-            //             message += `Group Name: ${group.subject}\n`
-            //             message += `Group ID: ${group.id}\n`
-            //             message += `Members: ${group.participants.length}\n`
-            //             message += '-------------------\n'
-            //         }
-                    
-            //         await sock.sendMessage(sender, { text: message })
-            //     } catch (error) {
-            //         console.error('Error fetching groups:', error)
-            //         await sock.sendMessage(sender, { 
-            //             text: '❌ Error fetching groups. Please try again later.' 
-            //         })
-            //     }
-            // }
-
-            // // Get group info command
-            // if (messageContent.toLowerCase().startsWith('!groupinfo')) {
-            //     try {
-            //         const groupId = messageContent.split(' ')[1]
-            //         if (!groupId) {
-            //             await sock.sendMessage(sender, { 
-            //                 text: '❌ Please provide a group ID. Usage: !groupinfo <group-id>' 
-            //             })
-            //             return
-            //         }
-
-            //         console.log(groupId)
-
-            //         const groupInfo = await sock.groupMetadata(groupId)
-            //         let message = '📱 Group Information:\n\n'
-            //         message += `Name: ${groupInfo.subject}\n`
-            //         message += `ID: ${groupInfo.id}\n`
-            //         message += `Created: ${new Date(groupInfo.creation * 1000).toLocaleDateString()}\n`
-            //         message += `Members: ${groupInfo.participants.length}\n`
-            //         message += '\nParticipants:\n'
-
-            //         console.log(groupInfo.participants)
-                    
-            //         for (const participant of groupInfo.participants) {
-            //             message += `- ${participant.id}\n`
-            //         }
-
-            //         await sock.sendMessage(sender, { text: message })
-            //     } catch (error) {
-            //         console.error('Error fetching group info:', error)
-            //         await sock.sendMessage(sender, { 
-            //             text: '❌ Error fetching group information. Please check the group ID and try again.' 
-            //         })
-            //     }
-            // }
+        
         }
     })
 
@@ -134,27 +51,27 @@ async function startBot() {
 
 
     // see available groups joined
-    // sock.ev.on('connection.update', async (update) => {
-    //     const { connection } = update
-    //     if (connection === 'open') {
-    //         console.log('✅ Connected! Fetching joined groups...')
+    sock.ev.on('connection.update', async (update) => {
+        const { connection } = update
+        if (connection === 'open') {
+            console.log('✅ Connected! Fetching joined groups...')
     
-    //         try {
-    //             const groups = await sock.groupFetchAllParticipating()
-    //             console.log('📋 Joined Groups:')
-    //             Object.entries(groups).forEach(([id, group]) => {
-    //                 console.log(`- ${group.subject} | ID: ${id}`)
-    //             })
-    //         } catch (error) {
-    //             console.error('❌ Failed to fetch group list:', error)
-    //         }
-    //     }
-    // })
+            try {
+                const groups = await sock.groupFetchAllParticipating()
+                console.log('📋 Joined Groups:')
+                Object.entries(groups).forEach(([id, group]) => {
+                    console.log(`- ${group.subject} | ID: ${id}`)
+                })
+            } catch (error) {
+                console.error('❌ Failed to fetch group list:', error)
+            }
+        }
+    })
 
     // Schedule job to run in 20 seconds
     const date = new Date()
-    date.setSeconds(date.getSeconds() + 5)
-
+    date.setSeconds(date.getSeconds() + 3)
+    console.log("debug1")
     console.log(date)
     
     schedule.scheduleJob(date, async () => {
@@ -164,7 +81,7 @@ async function startBot() {
     
             for (const person of birthdays) {
                 if (person.date === today) {
-                    const mentionJid = person.jid // e.g., '1234567890@s.whatsapp.net'
+                    const mentionJid = person.jid // e.g., '1234567890@s.whatsapp.net' basically the user phone number
                     const groupJid = person.group
     
                     if (!groupJid) {
@@ -215,11 +132,6 @@ async function startBot() {
     })
 
     console.log("✅ Birthday bot is running and will send a test message in 20 seconds.")
-    console.log("📝 Available commands:")
-    console.log("   - !test - Test if the bot is working")
-    console.log("   - !groups - List all groups the bot is in")
-    console.log("   - !groupid - Get the current group's ID (use in a group)")
-    console.log("   - !groupinfo <group-id> - Get detailed information about a specific group")
 }
 
 startBot()

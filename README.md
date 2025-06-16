@@ -6,7 +6,6 @@ A WhatsApp bot that automatically sends birthday messages to group members with 
 
 - Automated birthday messages in WhatsApp groups
 - Support for custom birthday images
-- Group management commands
 - QR code authentication
 - Persistent session management
 - Scheduled birthday notifications
@@ -16,7 +15,6 @@ A WhatsApp bot that automatically sends birthday messages to group members with 
 - Node.js (v14 or higher)
 - npm (Node Package Manager)
 - A WhatsApp account
-- PostgreSQL database (for birthday data management)
 
 ## Installation 🚀
 
@@ -63,7 +61,7 @@ The bot will automatically send birthday messages at 9 AM daily to the specified
 - Group-specific messages
 
 ### Authentication
-The bot uses multi-file authentication state for better reliability. Authentication data is stored in the `auth_info_baileys` directory.
+The bot uses multi-file authentication state for better reliability. Authentication data is stored in the `auth_info` directory.
 
 ## Dependencies 📦
 
