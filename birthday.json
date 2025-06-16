@@ -5,5 +5,14 @@
         "group": "xxxxxxxxxxxxxxxxx@g.us",
         "jid": "xxxxxxxxxxxxxx@s.whatsapp.net",
         "image": "image-url-link"
+    },
+    {
+        "name": "user2", 
+        "date": "06-17",
+        "group": "xxxxxxxxxxxxxxxxx@g.us",
+        "jid": "xxxxxxxxxxxxxx@s.whatsapp.net",
+        "image": "image-url-link"
     }
+
+
 ]

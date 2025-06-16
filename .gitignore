@@ -1,11 +1,16 @@
 # Ignore environment variables
 .env
 
-# Ignore any file ending in 'auth_info'
-*auth_info
+# Ignore auth_info directory and its contents
+auth_info/
 
 # Ignore node_modules directory
-/node_modules
+node_modules/
 
-# Ignore any file ending with 'birthdays.json'
+# Ignore birthdays.json file
 *birthdays.json
+
+config/
+
+# Ignore .gitignore file
+.gitignore
